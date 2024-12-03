@@ -423,6 +423,9 @@ func (n *Null[T]) Scan(value any) error {
 		return nil
 	}
 	n.Valid = true
+	if v, ok := any(n.V).(Scanner); ok {
+		return v.Scan(value)
+	}
 	return convertAssign(&n.V, value)
 }
 
